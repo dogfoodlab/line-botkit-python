@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from functools import wraps
 from typing import Any
 import json
 import logging
@@ -164,8 +165,8 @@ class BotHandler:
         def handle_video_message(line_event: MessageEvent) -> None:
             '''
             '''
-            if mode in self.__sticker_func_dic:
-                func = self.__sticker_func_dic[mode]
+            if mode in self.__video_func_dic:
+                func = self.__video_func_dic[mode]
                 func(line_bot_api, line_event, context)
 
         #
@@ -200,15 +201,13 @@ class BotHandler:
 
         except LineBotApiError as e:
             logger.error('LineBotApiError: {}'.format(e.message))
-            for m in e.error.details:
-                logger.error('  {}: {}'.format(m.property, m.message))
-            return self.__bot_request.create_response(500, 'Error')
+            return self.__bot_request.create_response(500, '')
 
         except InvalidSignatureError as e:
             logger.error('InvalidSignatureError: {}'.format(e.message))
-            return self.__bot_request.create_response(500, 'Error')
+            return self.__bot_request.create_response(400, '')
 
-        return self.__bot_request.create_response(200, '')
+        return self.__bot_request.create_response(200, 'ok')
 
     #
     def text(self, mode: str = None, intent: str = None, text: str = None):
@@ -235,6 +234,7 @@ class BotHandler:
             else:
                 self.__unhandled_func_dic[set_mode] = func
 
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -248,6 +248,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__sticker_func_dic[set_mode] = func
 
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -261,6 +262,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__image_func_dic[set_mode] = func
 
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -274,6 +276,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__video_func_dic[set_mode] = func
 
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -287,6 +290,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__audio_func_dic[set_mode] = func
 
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -300,6 +304,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__location_func_dic[set_mode] = func
 
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -313,6 +318,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__postback_func_dic[set_mode] = func
 
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
