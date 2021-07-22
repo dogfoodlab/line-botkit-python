@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import pytest
-from line_botkit import line_util
+from line_botkit.utils import line_util
 
 
 def test_1():

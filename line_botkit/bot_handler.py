@@ -20,7 +20,7 @@ from linebot.models import (
     LocationMessage,
     PostbackEvent
 )
-from . import line_util
+from .utils import line_util
 from .bot_context import BotContext
 from .bot_intent import BotIntent
 from .bot_locale import BotLocale
