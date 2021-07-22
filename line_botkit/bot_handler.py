@@ -27,6 +27,7 @@ from .bot_locale import BotLocale
 from .bot_request.base import BotRequest
 from .bot_cache.base import BotCache
 from .bot_cache.dummy import DummyBotCache
+from .core.file.base import CoreFile
 
 
 logger = logging.getLogger()
@@ -39,8 +40,8 @@ class BotHandler:
     def __init__(self,
                  bot_request: BotRequest,
                  bot_cache: BotCache = None,
-                 locale_settings: BotLocale = None,
-                 intent_file: str = None):
+                 bot_locale: BotLocale = None,
+                 intent_file: CoreFile = None):
         '''
         '''
         # func dict
@@ -60,12 +61,12 @@ class BotHandler:
         self.__intent: BotIntent = BotIntent(intent_file)
 
         # i18n
-        if locale_settings:
+        if bot_locale:
             i18n.set('filename_format', '{locale}.{format}')
             # i18n.set("skip_locale_root_data", True)
-            i18n.set('locale', locale_settings.default)
-            i18n.set('fallback', locale_settings.fallback)
-            i18n.load_path.append(locale_settings.locales_dir)
+            i18n.set('locale', bot_locale.default)
+            i18n.set('fallback', bot_locale.fallback)
+            i18n.load_path.append(bot_locale.locales_dir)
 
         # bot request
         self.__bot_request = bot_request

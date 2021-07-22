@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from abc import ABCMeta, abstractmethod
 from typing import Dict, Any
+from abc import ABCMeta, abstractmethod
 
 
 class BotCache(metaclass=ABCMeta):

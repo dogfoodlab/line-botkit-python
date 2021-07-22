@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from abc import ABCMeta, abstractmethod
 from typing import Any
+from abc import ABCMeta, abstractmethod
 
 
 class BotRequest(metaclass=ABCMeta):

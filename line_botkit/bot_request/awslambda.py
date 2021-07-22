@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import logging
 from typing import Dict, Any
+import logging
 from .base import BotRequest
 
 logger = logging.getLogger(__name__)

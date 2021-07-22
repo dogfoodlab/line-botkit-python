@@ -5,6 +5,8 @@ from .bot_app.base import BotApp  # noqa: F401
 from .bot_locale import BotLocale  # noqa: F401
 from .bot_i18n import BotI18n  # noqa: F401
 
+from .core.file.yaml import YamlFile  # noqa: F401
+
 from .bot_request.awslambda import LambdaBotRequest  # noqa: F401
 from .bot_request.flask import FlaskBotRequest  # noqa: F401
 
