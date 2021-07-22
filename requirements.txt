@@ -1,0 +1,5 @@
+line-bot-sdk
+PyYAML
+redis
+Flask
+python-i18n
