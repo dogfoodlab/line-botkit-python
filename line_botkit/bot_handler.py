@@ -22,13 +22,12 @@ from linebot.models import (
     PostbackEvent
 )
 from .utils import line_util
-from .bot_context import BotContext
-from .bot_intent import BotIntent
-from .bot_locale import BotLocale
 from .bot_request.base import BotRequest
 from .bot_cache.base import BotCache
+from .bot_intent import BotIntent
+from .bot_locale import BotLocale
+from .bot_context import BotContext
 from .bot_cache.dummy import DummyBotCache
-from .core.file.base import CoreFile
 
 
 logger = logging.getLogger()
@@ -41,42 +40,38 @@ class BotHandler:
     def __init__(self,
                  bot_request: BotRequest,
                  bot_cache: BotCache = None,
-                 bot_locale: BotLocale = None,
-                 intent_file: CoreFile = None):
+                 bot_intent: BotIntent = None,
+                 bot_locale: BotLocale = None):
         '''
         '''
-        # func dict
+        # text func dict
         self.__intent_func_dic = {}
         self.__text_func_dic = {}
         self.__unhandled_func_dic = {}
-
+        # media func dict
         self.__sticker_func_dic = {}
         self.__image_func_dic = {}
         self.__video_func_dic = {}
         self.__audio_func_dic = {}
         self.__location_func_dic = {}
-
+        # postback func dict
         self.__postback_func_dic = {}
 
+        # request
+        self.__bot_request: BotRequest = bot_request
+
+        # cache
+        self.__bot_cache: BotCache = bot_cache or DummyBotCache()
+
         # intent
-        self.__intent: BotIntent = BotIntent(intent_file)
+        self.__bot_intent: BotIntent = bot_intent or BotIntent()
 
         # i18n
         if bot_locale:
             i18n.set('filename_format', '{locale}.{format}')
-            # i18n.set("skip_locale_root_data", True)
             i18n.set('locale', bot_locale.default)
             i18n.set('fallback', bot_locale.fallback)
             i18n.load_path.append(bot_locale.locales_dir)
-
-        # bot request
-        self.__bot_request = bot_request
-
-        # bot cache
-        if bot_cache:
-            self.__bot_cache = bot_cache
-        else:
-            self.__bot_cache = DummyBotCache()
 
     #
     def trans(self, text: str, locale: str) -> str:
@@ -103,12 +98,11 @@ class BotHandler:
         line_handler = WebhookHandler(channel_secret)
 
         user_id = json.loads(body)['events'][0]['source']['userId']
-        cache_key = '{}--{}'.format(channel_id, user_id)
-        profile = line_bot_api.get_profile(user_id)
 
-        context = BotContext(cache_key=cache_key,
-                             bot_cache=self.__bot_cache,
-                             language=profile.language)
+        context = BotContext(bot=line_bot_api,
+                             channel_id=channel_id,
+                             user_id=user_id,
+                             bot_cache=self.__bot_cache)
 
         mode = context.get_mode()
 
@@ -122,7 +116,7 @@ class BotHandler:
             for tmp_mode in ['*', mode]:
 
                 if tmp_mode in self.__intent_func_dic:
-                    intent = self.__intent.to_intent(text)
+                    intent = self.__bot_intent.to_intent(text)
                     if intent in self.__intent_func_dic[tmp_mode]:
                         func = self.__intent_func_dic[tmp_mode][intent]
                         if func:

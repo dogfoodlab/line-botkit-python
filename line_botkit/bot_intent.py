@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Dict
 import logging
-from .core.file.base import CoreFile
+from .core.file.yaml import YamlFile
 
 logger = logging.getLogger(__name__)
 
@@ -10,13 +10,13 @@ class BotIntent:
     '''
     '''
 
-    def __init__(self, intent_file: CoreFile):
+    def __init__(self, intent_file: str = None):
         '''
         '''
         self.__intent_dic: Dict[str, str] = {}
 
         if intent_file:
-            obj = intent_file.to_object()
+            obj = YamlFile(file_path=intent_file).to_object()
 
             for intent in obj['intents']:
                 for word in obj['intents'][intent]['texts']:
@@ -26,7 +26,6 @@ class BotIntent:
         '''
         '''
         if text in self.__intent_dic:
-            intent = self.__intent_dic[text]
-            return intent
+            return self.__intent_dic[text]
         else:
             return None

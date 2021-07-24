@@ -3,11 +3,11 @@ import os
 from typing import Any
 import json
 from line_botkit.bot_handler import BotHandler
-from line_botkit.bot_locale import BotLocale
-from line_botkit.bot_cache.dummy import DummyBotCache
 from line_botkit.bot_request.base import BotRequest
+from line_botkit.bot_cache.dummy import DummyBotCache
+from line_botkit.bot_intent import BotIntent
+from line_botkit.bot_locale import BotLocale
 from line_botkit.bot_context import BotContext
-from line_botkit.core.file.yaml import YamlFile
 from linebot import (
     LineBotApi,
     WebhookHandler,
@@ -79,12 +79,12 @@ def test_4_api_error(mocker):
     assert handler.handle(body_text1) == {'status': 500, 'message': ''}
 
 
-def test_9_text_decorator_1(mocker):
+def test_9_decorator(mocker):
     create_line_bot_api_mock(mocker)
 
     handler = BotHandler(
         bot_request=TestBotRequest(),
-        intent_file=YamlFile('./tests/resources/intent.yml')
+        bot_intent=BotIntent(intent_file='./tests/resources/intent.yml')
     )
 
     helper = Helper()

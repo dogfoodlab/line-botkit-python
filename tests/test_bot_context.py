@@ -3,10 +3,20 @@ from line_botkit.bot_context import BotContext
 from line_botkit.bot_cache.dummy import DummyBotCache
 
 
-def test_1():
-    context = BotContext('key', DummyBotCache(), 'lang')
+def test_1(mocker):
+    profile_mock = mocker.MagicMock()
+    profile_mock.language = 'lang'
+    bot_mock = mocker.MagicMock()
+    bot_mock.get_profile.return_value = profile_mock
 
-    assert context.get_laungage() == 'lang'
+    context = BotContext(bot=bot_mock,
+                         channel_id='channel',
+                         user_id='user',
+                         bot_cache=DummyBotCache())
+
+    assert context.get_channel_id() == 'channel'
+    assert context.get_user_id() == 'user'
+    assert context.get_language() == 'lang'
 
     assert context.get_mode() == ''
     assert context.get_data() == {}
