@@ -186,6 +186,8 @@ class BotHandler:
 
         except LineBotApiError as e:
             logger.error('LineBotApiError: {}'.format(e.message))
+            for m in e.error.details:
+                logger.error('  {}: {}'.format(m.property, m.message))
             return self.__bot_request.create_response(500, '')
 
         except InvalidSignatureError as e:
