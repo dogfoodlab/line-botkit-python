@@ -73,13 +73,11 @@ class BotHandler:
             i18n.set('fallback', bot_locale.fallback)
             i18n.load_path.append(bot_locale.locales_dir)
 
-    #
     def trans(self, text: str, locale: str) -> str:
         '''
         '''
         return i18n.t(text, locale=locale)
 
-    #
     def handle(self, request: Any) -> Any:
         '''
         '''
@@ -106,7 +104,6 @@ class BotHandler:
 
         mode = context.get_mode()
 
-        #
         @line_handler.add(MessageEvent, message=TextMessage)
         def handle_text_message(line_event: MessageEvent) -> None:
             '''
@@ -136,7 +133,6 @@ class BotHandler:
                         func(line_bot_api, line_event, context)
                         return
 
-        #
         @line_handler.add(MessageEvent, message=StickerMessage)
         def handle_sticker_message(line_event: MessageEvent) -> None:
             '''
@@ -145,7 +141,6 @@ class BotHandler:
                 func = self.__sticker_func_dic[mode]
                 func(line_bot_api, line_event, context)
 
-        #
         @line_handler.add(MessageEvent, message=ImageMessage)
         def handle_image_message(line_event: MessageEvent) -> None:
             '''
@@ -154,7 +149,6 @@ class BotHandler:
                 func = self.__image_func_dic[mode]
                 func(line_bot_api, line_event, context)
 
-        #
         @line_handler.add(MessageEvent, message=VideoMessage)
         def handle_video_message(line_event: MessageEvent) -> None:
             '''
@@ -163,7 +157,6 @@ class BotHandler:
                 func = self.__video_func_dic[mode]
                 func(line_bot_api, line_event, context)
 
-        #
         @line_handler.add(MessageEvent, message=AudioMessage)
         def handle_audio_message(line_event: MessageEvent) -> None:
             '''
@@ -172,7 +165,6 @@ class BotHandler:
                 func = self.__audio_func_dic[mode]
                 func(line_bot_api, line_event, context)
 
-        #
         @line_handler.add(MessageEvent, message=LocationMessage)
         def handle_location_message(line_event: MessageEvent) -> None:
             '''
@@ -189,7 +181,6 @@ class BotHandler:
                 func = self.__postback_func_dic[mode]
                 func(line_bot_api, line_event, context)
 
-        #
         try:
             line_handler.handle(body, signature)
 
@@ -203,7 +194,6 @@ class BotHandler:
 
         return self.__bot_request.create_response(200, 'ok')
 
-    #
     def text(self, mode: str = None, intent: str = None, text: str = None):
         def _text(func):
             set_mode = mode or ''
@@ -234,7 +224,6 @@ class BotHandler:
             return wrapper
         return _text
 
-    #
     def sticker(self, mode: str = None):
         '''
         '''
@@ -248,7 +237,6 @@ class BotHandler:
             return wrapper
         return _sticker
 
-    #
     def image(self, mode: str = None):
         '''
         '''
@@ -262,7 +250,6 @@ class BotHandler:
             return wrapper
         return _image
 
-    #
     def video(self, mode: str = None):
         '''
         '''
@@ -276,7 +263,6 @@ class BotHandler:
             return wrapper
         return _video
 
-    #
     def audio(self, mode: str = None):
         '''
         '''
@@ -290,7 +276,6 @@ class BotHandler:
             return wrapper
         return _audio
 
-    #
     def location(self, mode: str = None):
         '''
         '''
@@ -304,7 +289,6 @@ class BotHandler:
             return wrapper
         return _location
 
-    #
     def postback(self, mode: str = None):
         '''
         '''
