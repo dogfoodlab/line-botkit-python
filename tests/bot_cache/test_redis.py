@@ -14,7 +14,7 @@ def test_1(mocker):
     cache = RedisBotCache()
     setattr(cache, '_RedisBotCache__redis', redis_mock)
 
-    assert cache.exists('key')
+    assert cache.exists('key') is True
 
 
 def test_2(mocker):
@@ -25,7 +25,7 @@ def test_2(mocker):
     cache = RedisBotCache()
     setattr(cache, '_RedisBotCache__redis', redis_mock)
 
-    assert cache.delete('key')
+    assert cache.delete('key') is True
 
 
 def test_3(mocker):

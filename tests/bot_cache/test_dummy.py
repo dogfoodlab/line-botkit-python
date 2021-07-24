@@ -9,11 +9,11 @@ def test_0():
 def test_1():
     cache = DummyBotCache()
 
-    assert not cache.exists('key')
+    assert cache.exists('key') is False
 
     assert cache.set_obj('key', {'a': 'abc', 'b': 123}) is None
 
-    assert cache.exists('key')
+    assert cache.exists('key') is True
 
     assert cache.get_obj('key') == {'a': 'abc', 'b': 123}
 
@@ -33,6 +33,6 @@ def test_1():
 
     assert cache.delete('key') is True
 
-    assert not cache.exists('key')
+    assert cache.exists('key') is False
 
-    assert not cache.delete('key')
+    assert cache.delete('key') is False

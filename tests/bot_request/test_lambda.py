@@ -27,7 +27,7 @@ def test_4():
     request = LambdaBotRequest()
     response = request.create_response(123, '456')
 
-    assert not response['isBase64Encoded']
+    assert response['isBase64Encoded'] is False
     assert response['statusCode'] == 123
     assert response['headers'] == {}
     assert response['body'] == '456'
