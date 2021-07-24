@@ -287,31 +287,31 @@ def test_9_decorator(mocker):
     # mode=''
     #
     mocker.patch.object(BotContext, 'get_mode', return_value='')
-    assert handler.handle(body_text1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_text2) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_intent1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_intent2) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_sticker1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_image1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_video1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_audio1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_location1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_postback1) == {'status': 200, 'message': 'ok'}
+    assert handler.handle(body_text1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_text2) == {'status': 200, 'message': ''}
+    assert handler.handle(body_intent1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_intent2) == {'status': 200, 'message': ''}
+    assert handler.handle(body_sticker1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_image1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_video1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_audio1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_location1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_postback1) == {'status': 200, 'message': ''}
 
     #
     # mode='mode1'
     #
     mocker.patch.object(BotContext, 'get_mode', return_value='mode1')
-    assert handler.handle(body_text1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_text2) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_intent1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_intent2) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_sticker1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_image1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_video1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_audio1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_location1) == {'status': 200, 'message': 'ok'}
-    assert handler.handle(body_postback1) == {'status': 200, 'message': 'ok'}
+    assert handler.handle(body_text1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_text2) == {'status': 200, 'message': ''}
+    assert handler.handle(body_intent1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_intent2) == {'status': 200, 'message': ''}
+    assert handler.handle(body_sticker1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_image1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_video1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_audio1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_location1) == {'status': 200, 'message': ''}
+    assert handler.handle(body_postback1) == {'status': 200, 'message': ''}
 
     assert helper.called == [
         #

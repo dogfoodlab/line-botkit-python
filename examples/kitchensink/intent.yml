@@ -1,0 +1,8 @@
+version: "1"
+intents:
+  intent1:
+    texts:
+      - "intent1 text"
+  intent2:
+    texts:
+      - "intent2 text"

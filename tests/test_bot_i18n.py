@@ -27,4 +27,4 @@ def test_2(mocker):
     args, kwargs = handler_mock.trans.call_args
 
     assert args[0] == 'test'
-    assert args[1] == '__'
+    assert args[1] == 'unknown'

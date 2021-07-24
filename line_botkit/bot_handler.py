@@ -194,7 +194,7 @@ class BotHandler:
             logger.error('InvalidSignatureError: {}'.format(e.message))
             return self.__bot_request.create_response(400, '')
 
-        return self.__bot_request.create_response(200, 'ok')
+        return self.__bot_request.create_response(200, '')
 
     def text(self, mode: str = None, intent: str = None, text: str = None):
         def _text(func):
