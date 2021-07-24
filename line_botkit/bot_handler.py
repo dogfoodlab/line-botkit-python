@@ -73,10 +73,10 @@ class BotHandler:
             i18n.set('fallback', bot_locale.fallback)
             i18n.load_path.append(bot_locale.locales_dir)
 
-    def trans(self, text: str, locale: str) -> str:
+    def trans(self, text: str, locale: str, **kwargs) -> str:
         '''
         '''
-        return i18n.t(text, locale=locale)
+        return i18n.t(text, locale=locale, **kwargs)
 
     def handle(self, request: Any) -> Any:
         '''

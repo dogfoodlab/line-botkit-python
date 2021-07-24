@@ -20,7 +20,7 @@ class BotI18n:
         if language in LOCALE_DIC:
             self.__locale = LOCALE_DIC[language]
 
-    def trans(self, text: str) -> str:
+    def trans(self, text: str, **kwargs) -> str:
         '''
         '''
-        return self.__handler.trans(text, self.__locale)
+        return self.__handler.trans(text, self.__locale, **kwargs)
