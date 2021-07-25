@@ -228,6 +228,7 @@ class BotHandler:
             @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
+
             return wrapper
         return _text
 
@@ -241,6 +242,7 @@ class BotHandler:
             @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
+
             return wrapper
         return _sticker
 
@@ -254,6 +256,7 @@ class BotHandler:
             @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
+
             return wrapper
         return _image
 
@@ -267,6 +270,7 @@ class BotHandler:
             @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
+
             return wrapper
         return _video
 
@@ -280,6 +284,7 @@ class BotHandler:
             @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
+
             return wrapper
         return _audio
 
@@ -293,6 +298,7 @@ class BotHandler:
             @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
+
             return wrapper
         return _location
 
@@ -306,5 +312,6 @@ class BotHandler:
             @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
+
             return wrapper
         return _postback
