@@ -184,8 +184,6 @@ class BotHandler:
                     func = self.__postback_func_dic[mode]
                     func(line_bot_api, line_event, context)
 
-            line_bot_api.get_profile('1')
-
             # handle request
             line_handler.handle(body, signature)
 
