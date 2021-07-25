@@ -55,6 +55,20 @@ def test_2_empty_request(mocker):
     assert handler.handle(body_empty) == {'status': 200, 'message': ''}
 
 
+def test_3_api_error(mocker):
+    create_line_bot_api_mock(mocker)
+
+    error_mock = mocker.MagicMock()
+    error_mock.message = 'test'
+
+    error = LineBotApiError(500, {}, error=error_mock)
+    mocker.patch.object(WebhookHandler, 'handle', side_effect=error)
+
+    handler = BotHandler(bot_request=TestBotRequest())
+
+    assert handler.handle(body_text1) == {'status': 500, 'message': ''}
+
+
 def test_3_signature_error(mocker):
     create_line_bot_api_mock(mocker)
 
@@ -65,13 +79,13 @@ def test_3_signature_error(mocker):
     assert handler.handle(body_text1) == {'status': 400, 'message': ''}
 
 
-def test_4_api_error(mocker):
+def test_3_exception(mocker):
     create_line_bot_api_mock(mocker)
 
     error_mock = mocker.MagicMock()
     error_mock.message = 'test'
 
-    error = LineBotApiError(500, {}, error=error_mock)
+    error = SystemError('error')
     mocker.patch.object(WebhookHandler, 'handle', side_effect=error)
 
     handler = BotHandler(bot_request=TestBotRequest())

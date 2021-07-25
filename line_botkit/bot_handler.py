@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import sys
+import traceback
 from functools import wraps
 from typing import Dict, Any
 import json
@@ -81,118 +83,125 @@ class BotHandler:
     def handle(self, request: Any) -> Any:
         '''
         '''
-        body = self.__bot_request.get_body(request)
-
-        if not len(json.loads(body)['events']):
-            return self.__bot_request.create_response(200, '')
-
-        signature = self.__bot_request.get_signature(request)
-
-        channel_id = line_util.get_channel_id()
-        channel_secret = line_util.get_channel_secret()
-        channel_access_token = line_util.get_channel_access_token()
-
-        line_bot_api = LineBotApi(channel_access_token)
-        line_handler = WebhookHandler(channel_secret)
-
-        user_id = json.loads(body)['events'][0]['source']['userId']
-
-        context = BotContext(bot=line_bot_api,
-                             channel_id=channel_id,
-                             user_id=user_id,
-                             bot_cache=self.__bot_cache)
-
-        mode = context.get_mode()
-
-        @line_handler.add(MessageEvent, message=TextMessage)
-        def handle_text_message(line_event: MessageEvent) -> None:
-            '''
-            '''
-            text = str(line_event.message.text).strip()
-
-            for tmp_mode in ['*', mode]:
-
-                if tmp_mode in self.__intent_func_dic:
-                    intent = self.__bot_intent.to_intent(text)
-                    if intent in self.__intent_func_dic[tmp_mode]:
-                        func = self.__intent_func_dic[tmp_mode][intent]
-                        if func:
-                            func(line_bot_api, line_event, context)
-                            return
-
-                if tmp_mode in self.__text_func_dic:
-                    if text in self.__text_func_dic[tmp_mode]:
-                        func = self.__text_func_dic[tmp_mode][text]
-                        if func:
-                            func(line_bot_api, line_event, context)
-                            return
-
-                if tmp_mode in self.__unhandled_func_dic:
-                    func = self.__unhandled_func_dic[tmp_mode]
-                    if func:
-                        func(line_bot_api, line_event, context)
-                        return
-
-        @line_handler.add(MessageEvent, message=StickerMessage)
-        def handle_sticker_message(line_event: MessageEvent) -> None:
-            '''
-            '''
-            if mode in self.__sticker_func_dic:
-                func = self.__sticker_func_dic[mode]
-                func(line_bot_api, line_event, context)
-
-        @line_handler.add(MessageEvent, message=ImageMessage)
-        def handle_image_message(line_event: MessageEvent) -> None:
-            '''
-            '''
-            if mode in self.__image_func_dic:
-                func = self.__image_func_dic[mode]
-                func(line_bot_api, line_event, context)
-
-        @line_handler.add(MessageEvent, message=VideoMessage)
-        def handle_video_message(line_event: MessageEvent) -> None:
-            '''
-            '''
-            if mode in self.__video_func_dic:
-                func = self.__video_func_dic[mode]
-                func(line_bot_api, line_event, context)
-
-        @line_handler.add(MessageEvent, message=AudioMessage)
-        def handle_audio_message(line_event: MessageEvent) -> None:
-            '''
-            '''
-            if mode in self.__audio_func_dic:
-                func = self.__audio_func_dic[mode]
-                func(line_bot_api, line_event, context)
-
-        @line_handler.add(MessageEvent, message=LocationMessage)
-        def handle_location_message(line_event: MessageEvent) -> None:
-            '''
-            '''
-            if mode in self.__location_func_dic:
-                func = self.__location_func_dic[mode]
-                func(line_bot_api, line_event, context)
-
-        @line_handler.add(PostbackEvent)
-        def handle_postback_event(line_event: PostbackEvent) -> None:
-            '''
-            '''
-            if mode in self.__postback_func_dic:
-                func = self.__postback_func_dic[mode]
-                func(line_bot_api, line_event, context)
-
         try:
+            body = self.__bot_request.get_body(request)
+
+            if not len(json.loads(body)['events']):
+                return self.__bot_request.create_response(200, '')
+
+            signature = self.__bot_request.get_signature(request)
+
+            channel_id = line_util.get_channel_id()
+            channel_secret = line_util.get_channel_secret()
+            channel_access_token = line_util.get_channel_access_token()
+
+            line_bot_api = LineBotApi(channel_access_token)
+            line_handler = WebhookHandler(channel_secret)
+
+            user_id = json.loads(body)['events'][0]['source']['userId']
+
+            context = BotContext(bot=line_bot_api,
+                                 channel_id=channel_id,
+                                 user_id=user_id,
+                                 bot_cache=self.__bot_cache)
+
+            mode = context.get_mode()
+
+            @line_handler.add(MessageEvent, message=TextMessage)
+            def handle_text_message(line_event: MessageEvent) -> None:
+                '''
+                '''
+                text = str(line_event.message.text).strip()
+
+                for tmp_mode in ['*', mode]:
+
+                    if tmp_mode in self.__intent_func_dic:
+                        intent = self.__bot_intent.to_intent(text)
+                        if intent in self.__intent_func_dic[tmp_mode]:
+                            func = self.__intent_func_dic[tmp_mode][intent]
+                            if func:
+                                func(line_bot_api, line_event, context)
+                                return
+
+                    if tmp_mode in self.__text_func_dic:
+                        if text in self.__text_func_dic[tmp_mode]:
+                            func = self.__text_func_dic[tmp_mode][text]
+                            if func:
+                                func(line_bot_api, line_event, context)
+                                return
+
+                    if tmp_mode in self.__unhandled_func_dic:
+                        func = self.__unhandled_func_dic[tmp_mode]
+                        if func:
+                            func(line_bot_api, line_event, context)
+                            return
+
+            @line_handler.add(MessageEvent, message=StickerMessage)
+            def handle_sticker_message(line_event: MessageEvent) -> None:
+                '''
+                '''
+                if mode in self.__sticker_func_dic:
+                    func = self.__sticker_func_dic[mode]
+                    func(line_bot_api, line_event, context)
+
+            @line_handler.add(MessageEvent, message=ImageMessage)
+            def handle_image_message(line_event: MessageEvent) -> None:
+                '''
+                '''
+                if mode in self.__image_func_dic:
+                    func = self.__image_func_dic[mode]
+                    func(line_bot_api, line_event, context)
+
+            @line_handler.add(MessageEvent, message=VideoMessage)
+            def handle_video_message(line_event: MessageEvent) -> None:
+                '''
+                '''
+                if mode in self.__video_func_dic:
+                    func = self.__video_func_dic[mode]
+                    func(line_bot_api, line_event, context)
+
+            @line_handler.add(MessageEvent, message=AudioMessage)
+            def handle_audio_message(line_event: MessageEvent) -> None:
+                '''
+                '''
+                if mode in self.__audio_func_dic:
+                    func = self.__audio_func_dic[mode]
+                    func(line_bot_api, line_event, context)
+
+            @line_handler.add(MessageEvent, message=LocationMessage)
+            def handle_location_message(line_event: MessageEvent) -> None:
+                '''
+                '''
+                if mode in self.__location_func_dic:
+                    func = self.__location_func_dic[mode]
+                    func(line_bot_api, line_event, context)
+
+            @line_handler.add(PostbackEvent)
+            def handle_postback_event(line_event: PostbackEvent) -> None:
+                '''
+                '''
+                if mode in self.__postback_func_dic:
+                    func = self.__postback_func_dic[mode]
+                    func(line_bot_api, line_event, context)
+
+            line_bot_api.get_profile('1')
+
+            # handle request
             line_handler.handle(body, signature)
 
         except LineBotApiError as e:
             logger.error('LineBotApiError: {}'.format(e.message))
-            for m in e.error.details:
-                logger.error('  {}: {}'.format(m.property, m.message))
+            logger.error(e.error.details)
             return self.__bot_request.create_response(500, '')
 
         except InvalidSignatureError as e:
             logger.error('InvalidSignatureError: {}'.format(e.message))
             return self.__bot_request.create_response(400, '')
+
+        except BaseException:
+            logger.error('{}: {}'.format(sys.exc_info()[0].__name__, sys.exc_info()[1]))
+            logger.error(traceback.format_exc())
+            return self.__bot_request.create_response(500, '')
 
         return self.__bot_request.create_response(200, '')
 
@@ -218,7 +227,7 @@ class BotHandler:
             else:
                 self.__unhandled_func_dic[set_mode] = func
 
-            @wraps(func)
+            @ wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -231,7 +240,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__sticker_func_dic[set_mode] = func
 
-            @wraps(func)
+            @ wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -244,7 +253,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__image_func_dic[set_mode] = func
 
-            @wraps(func)
+            @ wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -257,7 +266,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__video_func_dic[set_mode] = func
 
-            @wraps(func)
+            @ wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -270,7 +279,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__audio_func_dic[set_mode] = func
 
-            @wraps(func)
+            @ wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -283,7 +292,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__location_func_dic[set_mode] = func
 
-            @wraps(func)
+            @ wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -296,7 +305,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__postback_func_dic[set_mode] = func
 
-            @wraps(func)
+            @ wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
