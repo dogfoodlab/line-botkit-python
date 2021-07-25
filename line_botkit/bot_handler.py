@@ -225,7 +225,7 @@ class BotHandler:
             else:
                 self.__unhandled_func_dic[set_mode] = func
 
-            @ wraps(func)
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -238,7 +238,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__sticker_func_dic[set_mode] = func
 
-            @ wraps(func)
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -251,7 +251,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__image_func_dic[set_mode] = func
 
-            @ wraps(func)
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -264,7 +264,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__video_func_dic[set_mode] = func
 
-            @ wraps(func)
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -277,7 +277,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__audio_func_dic[set_mode] = func
 
-            @ wraps(func)
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -290,7 +290,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__location_func_dic[set_mode] = func
 
-            @ wraps(func)
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
@@ -303,7 +303,7 @@ class BotHandler:
             set_mode = mode or ''
             self.__postback_func_dic[set_mode] = func
 
-            @ wraps(func)
+            @wraps(func)
             def wrapper(*args, **kwargs):
                 func(*args, **kwargs)
             return wrapper
