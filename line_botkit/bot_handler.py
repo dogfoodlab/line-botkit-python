@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from functools import wraps
-from typing import Any
+from typing import Dict, Any
 import json
 import logging
 import i18n
@@ -45,17 +45,17 @@ class BotHandler:
         '''
         '''
         # text func dict
-        self.__intent_func_dic = {}
-        self.__text_func_dic = {}
-        self.__unhandled_func_dic = {}
+        self.__intent_func_dic: Dict[str, Dict[str, Any]] = {}
+        self.__text_func_dic: Dict[str, Dict[str, Any]] = {}
+        self.__unhandled_func_dic: Dict[str, Any] = {}
         # media func dict
-        self.__sticker_func_dic = {}
-        self.__image_func_dic = {}
-        self.__video_func_dic = {}
-        self.__audio_func_dic = {}
-        self.__location_func_dic = {}
+        self.__sticker_func_dic: Dict[str, Any] = {}
+        self.__image_func_dic: Dict[str, Any] = {}
+        self.__video_func_dic: Dict[str, Any] = {}
+        self.__audio_func_dic: Dict[str, Any] = {}
+        self.__location_func_dic: Dict[str, Any] = {}
         # postback func dict
-        self.__postback_func_dic = {}
+        self.__postback_func_dic: Dict[str, Any] = {}
 
         # request
         self.__bot_request: BotRequest = bot_request
@@ -213,10 +213,8 @@ class BotHandler:
             # binding
             if intent:
                 self.__intent_func_dic[set_mode][intent] = func
-
             elif text:
                 self.__text_func_dic[set_mode][text] = func
-
             else:
                 self.__unhandled_func_dic[set_mode] = func
 

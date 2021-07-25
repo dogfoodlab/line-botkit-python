@@ -13,13 +13,13 @@ class YamlFile(CoreFile):
         '''
         self.__file_path = file_path
 
-    def to_object(self) -> Dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         '''
         '''
         with open(self.__file_path) as f:
             return yaml.safe_load(f)
 
-    def to_binary(self) -> Any:
+    def to_bytes(self) -> Any:
         '''
         '''
         raise NotImplementedError()

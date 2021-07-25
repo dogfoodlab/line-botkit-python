@@ -20,13 +20,21 @@ def test_2(mocker):
 
 def test_3(mocker):
     flask_request_mock = mocker.MagicMock()
+    flask_request_mock.headers = {}
+    request = FlaskBotRequest()
+
+    assert request.get_signature(flask_request_mock) is None
+
+
+def test_4(mocker):
+    flask_request_mock = mocker.MagicMock()
     flask_request_mock.get_data.return_value = 'body1'
     request = FlaskBotRequest()
 
     assert request.get_body(flask_request_mock) == 'body1'
 
 
-def test_4():
+def test_5():
     request = FlaskBotRequest()
     response = request.create_response(123, '456')
 

@@ -17,13 +17,20 @@ def test_2():
 
 
 def test_3():
+    input = {'headers': {}}
+    request = LambdaBotRequest()
+
+    assert request.get_signature(input) is None
+
+
+def test_4():
     input = {'body': 'body1'}
     request = LambdaBotRequest()
 
     assert request.get_body(input) == 'body1'
 
 
-def test_4():
+def test_5():
     request = LambdaBotRequest()
     response = request.create_response(123, '456')
 

@@ -26,8 +26,8 @@ class DummyBotCache(BotCache):
         if key in self.__cache.keys():
             del(self.__cache[key])
             return True
-        else:
-            return False
+
+        return False
 
     def set_obj(self, key: str, obj: Dict[str, Any]) -> None:
         '''

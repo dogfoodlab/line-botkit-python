@@ -14,12 +14,12 @@ class LambdaBotRequest(BotRequest):
         '''
         '''
         if 'X-Line-Signature' in request['headers']:
-            signature = request['headers']['X-Line-Signature']
+            return request['headers']['X-Line-Signature']
 
         elif 'x-line-signature' in request['headers']:
-            signature = request['headers']['x-line-signature']
+            return request['headers']['x-line-signature']
 
-        return signature
+        return None
 
     def get_body(self, request: Dict[str, Any]) -> str:
         '''

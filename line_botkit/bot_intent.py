@@ -16,7 +16,7 @@ class BotIntent:
         self.__intent_dic: Dict[str, str] = {}
 
         if intent_file:
-            obj = YamlFile(file_path=intent_file).to_object()
+            obj = YamlFile(file_path=intent_file).to_dict()
 
             for intent in obj['intents']:
                 for word in obj['intents'][intent]['texts']:
@@ -25,7 +25,4 @@ class BotIntent:
     def to_intent(self, text: str) -> str or None:
         '''
         '''
-        if text in self.__intent_dic:
-            return self.__intent_dic[text]
-        else:
-            return None
+        return self.__intent_dic.get(text, None)

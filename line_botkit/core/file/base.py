@@ -8,13 +8,13 @@ class CoreFile(metaclass=ABCMeta):
     '''
 
     @abstractmethod
-    def to_object(self) -> Dict[str, Any]:
+    def to_dict(self) -> Dict[str, Any]:
         '''
         '''
         raise NotImplementedError()
 
     @abstractmethod
-    def to_binary(self) -> Any:
+    def to_bytes(self) -> Any:
         '''
         '''
         raise NotImplementedError()

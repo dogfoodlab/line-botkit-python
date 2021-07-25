@@ -23,11 +23,11 @@ class BotContext:
         self.__user_id: str = user_id
         self.__cache: BotCache = bot_cache
 
-        self.__cache_key = '{}--{}'.format(channel_id, user_id)
+        self.__cache_key: str = '{}--{}'.format(channel_id, user_id)
 
         if not self.__cache.exists(self.__cache_key):
-            self.__cache.set_obj(self.__cache_key,
-                                 {MODE: '', DATA: {}, TAG: ''})
+            obj = {MODE: '', DATA: {}, TAG: ''}
+            self.__cache.set_obj(self.__cache_key, obj)
 
     def get_channel_id(self) -> str:
         '''

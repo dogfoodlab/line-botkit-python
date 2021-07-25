@@ -13,7 +13,7 @@ def test_1():
     file = CoreFile()
 
     with pytest.raises(NotImplementedError):
-        file.to_object()
+        file.to_dict()
 
     with pytest.raises(NotImplementedError):
-        file.to_binary()
+        file.to_bytes()

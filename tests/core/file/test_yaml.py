@@ -25,7 +25,7 @@ def test_2(mocker):
 
     file = YamlFile(file_path='dummy')
 
-    assert file.to_object() == {'root': {'key1': 'abc', 'key2': 123, 'key3': {'prop1': 'def', 'prop2': 456}}}
+    assert file.to_dict() == {'root': {'key1': 'abc', 'key2': 123, 'key3': {'prop1': 'def', 'prop2': 456}}}
 
     with pytest.raises(NotImplementedError):
-        file.to_binary()
+        file.to_bytes()
