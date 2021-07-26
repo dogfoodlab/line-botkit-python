@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from line_botkit.bot_locale import BotLocale
 from dotenv import load_dotenv
 from flask import Flask, request
 from line_botkit import (
@@ -8,6 +7,7 @@ from line_botkit import (
     FlaskBotRequest,
     RedisBotCache,
     BotIntent,
+    BotLocale
 )
 from apps import HandleApp, CacheApp, I18nApp
 
